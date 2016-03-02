@@ -26,8 +26,10 @@
 
 /* --------------------------- Global Variables ----------------------------- */
 
+// screen and object sizes
 int screenWidth = 500, screenHeight = 500;
 float paddleWidth = 1, paddleHeight = 2.0, paddleDepth = 0.1;
+float ballRadius = 0.5, ballWidth = 1.0, ballHeight = 1.0, ballDepth = 1.0;
 
 // left paddle position
 float leftPaddleX = -3.5, leftPaddleY = 0.0;
@@ -36,6 +38,9 @@ float leftPaddleTopY = 1.0, leftPaddleBotY = -1.0;
 // right paddle postiion
 float rightPaddleX = 3.5, rightPaddleY = 0.0;
 float rightPaddleTopY = 1.0, rightPaddleBotY = -1.0;
+
+// ball position
+float ballX = 0.0, ballY = 0.0;
 
 // Frustum value ranges
 const float X_MAX = 4.0, X_MIN = -4.0;
@@ -61,6 +66,10 @@ void updateRightPaddleLoc (float delta) {
         rightPaddleBotY += delta;
         rightPaddleY += delta;
     }
+}
+
+void startGame (int startPosition) {
+    
 }
 
 void drawPaddles () {
@@ -109,16 +118,36 @@ void drawGuidlines () {
 
 void drawBall () {
     glPushMatrix();
+    glTranslated(ballX, ballY, 0);
+    glScaled(ballWidth, ballHeight, ballDepth);
     glColor3d(1.0, 1.0, 1.0);
+    glutSolidSphere(ballRadius, 20, 20);
+    glColor3d(0.0, 0.0, 1.0);
     glLineWidth(1.0);
-    glutWireSphere(0.5, 20, 20);
+    glutWireSphere(ballRadius, 20, 20);
     glPopMatrix();
 }
 
-void keyboardPressed (unsigned char theKey, int mouseX, int mouseY) {
+void arrowKeysPressed (int key, int x, int y) {
+    switch (key) {
+        case GLUT_KEY_DOWN:
+            updateRightPaddleLoc(-paddleSpeed);
+            glutPostRedisplay();
+            break;
+            
+        case GLUT_KEY_UP:
+            updateRightPaddleLoc(paddleSpeed);
+            glutPostRedisplay();
+            break;
+        
+        default: break;
+    }
+}
+
+void keyboardPressed (unsigned char key, int mouseX, int mouseY) {
     GLint x = mouseX;
     GLint y = screenHeight - mouseY;
-    switch (theKey) {
+    switch (key) {
         case 'w':
         case 'W':
             updateLeftPaddleLoc(paddleSpeed);
@@ -130,24 +159,15 @@ void keyboardPressed (unsigned char theKey, int mouseX, int mouseY) {
             updateLeftPaddleLoc(-paddleSpeed);
             glutPostRedisplay();
             break;
-        
-        case 'o':
-        case 'O':
-            updateRightPaddleLoc(paddleSpeed);
-            glutPostRedisplay();
+            
+        case 'i':
+        case 'I':
+            startGame(0);
             break;
             
-        case 'l':
-        case 'L':
-            updateRightPaddleLoc(-paddleSpeed);
-            glutPostRedisplay();
-            break;
+        case 27: exit(0);
             
-        case 27:
-            exit(0);
-            
-        default:
-            break;
+        default: break;
     }
 }
 
@@ -188,6 +208,7 @@ int main(int argc, char** argv) {
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboardPressed);
+    glutSpecialFunc(arrowKeysPressed);
     init();
     //glutTimerFunc(1000, myTimer,   1);
     glutMainLoop();
