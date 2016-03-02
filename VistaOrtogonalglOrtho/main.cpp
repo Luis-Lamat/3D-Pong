@@ -14,6 +14,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "Sound.h"
 
 /* --------------------------- Global Variables ----------------------------- */
 
@@ -52,6 +53,10 @@ int ballBounceSeq = 0;
 typedef enum { START, PLAYING, PAUSED, GAME_OVER } State;
 State gameState = START;
 int p1Points = 0, p2Points = 0;
+
+// sound variables
+Sound bopSound = Sound((char *) "/Users/Beto/TEC/Gráficas/VistaOrtogonalglOrtho/VistaOrtogonalglOrtho/bop.wav");
+Sound panSound = Sound((char *) "/Users/Beto/TEC/Gráficas/VistaOrtogonalglOrtho/VistaOrtogonalglOrtho/pan.wav");
 
 
 /* ------------------------------- Functions -------------------------------- */
@@ -115,10 +120,12 @@ void updateBallLoc (float delta){
         ballDirection = directionChange[0][ballDirection];
     } else if ((ballX + ballRadius >= X_MAX) || (ballX - ballRadius <= X_MIN)) {
         printf("Left / Right Collision!!!\n");
+        bopSound.PlaySound();
         awardPoints(ballX);
         resetBallLoc();
     } else if ((ballY + ballRadius >= Y_MAX) || (ballY - ballRadius <= Y_MIN)) {
         printf("Top / Down Collision!!!\n");
+        panSound.PlaySound();
         ballDirection = directionChange[1][ballDirection];
     }
 

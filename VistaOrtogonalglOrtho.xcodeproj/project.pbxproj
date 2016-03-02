@@ -10,6 +10,8 @@
 		C8D7F9BB1A94E7CF00530B50 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8D7F9BA1A94E7CF00530B50 /* main.cpp */; };
 		C8D7F9C31A94E7F500530B50 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D7F9C11A94E7F500530B50 /* GLUT.framework */; };
 		C8D7F9C41A94E7F500530B50 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D7F9C21A94E7F500530B50 /* OpenGL.framework */; };
+		CAF2D6F81C8750AE007962CC /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAF2D6F71C8750AE007962CC /* Sound.cpp */; };
+		CAF2D6FA1C8750C1007962CC /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAF2D6F91C8750C1007962CC /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +31,11 @@
 		C8D7F9BA1A94E7CF00530B50 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C8D7F9C11A94E7F500530B50 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		C8D7F9C21A94E7F500530B50 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		CAF2D6F61C87509C007962CC /* Sound.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
+		CAF2D6F71C8750AE007962CC /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
+		CAF2D6F91C8750C1007962CC /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		CAF2D6FD1C875210007962CC /* bop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bop.wav; sourceTree = "<group>"; };
+		CAF2D6FE1C875216007962CC /* pan.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pan.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAF2D6FA1C8750C1007962CC /* OpenAL.framework in Frameworks */,
 				C8D7F9C31A94E7F500530B50 /* GLUT.framework in Frameworks */,
 				C8D7F9C41A94E7F500530B50 /* OpenGL.framework in Frameworks */,
 			);
@@ -47,6 +55,7 @@
 		C8D7F9AE1A94E7CF00530B50 = {
 			isa = PBXGroup;
 			children = (
+				CAF2D6F91C8750C1007962CC /* OpenAL.framework */,
 				C8D7F9C11A94E7F500530B50 /* GLUT.framework */,
 				C8D7F9C21A94E7F500530B50 /* OpenGL.framework */,
 				C8D7F9B91A94E7CF00530B50 /* VistaOrtogonalglOrtho */,
@@ -65,6 +74,10 @@
 		C8D7F9B91A94E7CF00530B50 /* VistaOrtogonalglOrtho */ = {
 			isa = PBXGroup;
 			children = (
+				CAF2D6FD1C875210007962CC /* bop.wav */,
+				CAF2D6FE1C875216007962CC /* pan.wav */,
+				CAF2D6F61C87509C007962CC /* Sound.h */,
+				CAF2D6F71C8750AE007962CC /* Sound.cpp */,
 				C8D7F9BA1A94E7CF00530B50 /* main.cpp */,
 			);
 			path = VistaOrtogonalglOrtho;
@@ -127,6 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8D7F9BB1A94E7CF00530B50 /* main.cpp in Sources */,
+				CAF2D6F81C8750AE007962CC /* Sound.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
