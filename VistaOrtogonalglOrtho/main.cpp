@@ -32,11 +32,13 @@ float paddleWidth = 1, paddleHeight = 2.0, paddleDepth = 0.1;
 float ballRadius = 0.5, ballWidth = 1.0, ballHeight = 1.0, ballDepth = 1.0;
 
 // left paddle position
-float leftPaddleX = -3.5, leftPaddleY = 0.0, leftPaddleFaceX = -3;
+float leftPaddleX = -3.5, leftPaddleY = 0.0;
+float leftPaddleFaceX = leftPaddleX + (paddleWidth/2); // special
 float leftPaddleTopY = 1.0, leftPaddleBotY = -1.0;
 
 // right paddle postiion
-float rightPaddleX = 3.5, rightPaddleY = 0.0, rightPaddleFaceX = 3;
+float rightPaddleX = 3.5, rightPaddleY = 0.0;
+float rightPaddleFaceX = rightPaddleX - (paddleWidth/2); // special
 float rightPaddleTopY = 1.0, rightPaddleBotY = -1.0;
 
 // ball position and direction
@@ -231,8 +233,8 @@ void reshape(int w, int h) {
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-4.0, 4.0, -4.0, 4.0, 1.0, 4.0);
-    // glFrustum(X_MIN, X_MAX, Y_MIN, Y_MAX, 1.0, 4.0);
+    // glOrtho(-4.0, 4.0, -4.0, 4.0, 1.0, 4.0);
+    glFrustum(X_MIN, X_MAX, Y_MIN, Y_MAX, 1.0, 4.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(0, 0, 1.1, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
