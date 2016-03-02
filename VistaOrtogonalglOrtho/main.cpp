@@ -48,6 +48,7 @@ const float Y_MAX = 4.0, Y_MIN = -4.0;
 // movement
 float paddleSpeed = 0.4, ballSpeed = 0.1;
 int ballBounceSeq = 0;
+float rotationAngles = 0.0;
 
 // game mechanics
 typedef enum { START, PLAYING, PAUSED, GAME_OVER } State;
@@ -282,6 +283,9 @@ void gameTimer (int value){
     } else if (gameState == GAME_OVER) {
         resetBallLoc();
     }
+    
+    rotationAngles = (ballX / 2);
+    
     glutPostRedisplay();
     glutTimerFunc(50, gameTimer, 1);
 }
@@ -289,10 +293,15 @@ void gameTimer (int value){
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    drawGuidlines();
-    drawPaddles();
-    drawScreenText(); // score or pause, etc...
-    drawBall();
+    glPushMatrix();
+    glRotatef(rotationAngles, 0, 1, 0);
+    
+        drawGuidlines();
+        drawPaddles();
+        drawScreenText(); // score or pause, etc...
+        drawBall();
+    
+    glPopMatrix();
     
     glutSwapBuffers();
 }
@@ -304,7 +313,7 @@ void reshape(int w, int h) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     // glOrtho(-4.0, 4.0, -4.0, 4.0, 1.0, 4.0);
-    glFrustum(X_MIN, X_MAX, Y_MIN, Y_MAX, 1.0, 4.0);
+    glFrustum(X_MIN, X_MAX, Y_MIN, Y_MAX, 1.0, 10.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(0, 0, 1.1, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
