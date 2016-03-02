@@ -29,7 +29,7 @@
 // screen and object sizes
 int screenWidth = 500, screenHeight = 500;
 float paddleWidth = 1, paddleHeight = 2.0, paddleDepth = 0.1;
-float ballRadius = 0.5, ballWidth = 1.0, ballHeight = 1.0, ballDepth = 1.0;
+float ballRadius = 0.5, ballWidth = 1.0, ballHeight = 1.0, ballDepth = 0.1;
 
 // left paddle position
 float leftPaddleX = -3.5, leftPaddleY = 0.0;
@@ -221,8 +221,8 @@ void display() {
     glClear(GL_COLOR_BUFFER_BIT);
     
     drawGuidlines();
-    drawBall();
     drawPaddles();
+    drawBall();
     
     glutSwapBuffers();
 }
