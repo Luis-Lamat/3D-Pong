@@ -1,19 +1,10 @@
 //
 //  main.cpp
-//  VistaOrtogonalglOrtho
+//  Pong
 //
-//  Created by Ma. Guadalupe Roque on 2/18/15.
-//  Copyright (c) 2015 em15-2. All rights reserved.
+//  Created by Luis Lamadrid on 03/01/16.
+//  Copyright (c) 2016 Lamadrid. All rights reserved.
 //
-//
-//  main.cpp
-//  VistaOrtogonalGC
-//
-//  Created by Maria  Roque on 05/09/12.
-//  Copyright (c) 2012 Tecnológico de Monterrey. All rights reserved.
-//
-/* draws the wire frame glut cube */
-
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
@@ -54,17 +45,19 @@ const float X_MAX = 4.0, X_MIN = -4.0;
 const float Y_MAX = 4.0, Y_MIN = -4.0;
 
 // movement
-float paddleSpeed = 0.5, ballSpeed = 0.1;
+float paddleSpeed = 0.4, ballSpeed = 0.1;
 
-// game state definition
-typedef enum { PLAYING, PAUSED, GAME_OVER } State;
-State gameState = PAUSED;
+// game mechanics
+typedef enum { START, PLAYING, PAUSED, GAME_OVER } State;
+State gameState = START;
+int p1Points = 0, p2Points = 0;
 
 
 /* ------------------------------- Functions -------------------------------- */
 
 void updateLeftPaddleLoc (float delta) {
-    if (leftPaddleTopY + delta <= Y_MAX && leftPaddleBotY + delta >= Y_MIN) {
+    if (leftPaddleTopY + delta <= Y_MAX && leftPaddleBotY + delta >= Y_MIN &&
+        gameState == PLAYING) {
         leftPaddleTopY += delta;
         leftPaddleBotY += delta;
         leftPaddleY += delta;
@@ -72,7 +65,8 @@ void updateLeftPaddleLoc (float delta) {
 }
 
 void updateRightPaddleLoc (float delta) {
-    if (rightPaddleTopY + delta <= Y_MAX && rightPaddleBotY + delta >= Y_MIN) {
+    if (rightPaddleTopY + delta <= Y_MAX && rightPaddleBotY + delta >= Y_MIN &&
+        gameState == PLAYING) {
         rightPaddleTopY += delta;
         rightPaddleBotY += delta;
         rightPaddleY += delta;
@@ -81,6 +75,31 @@ void updateRightPaddleLoc (float delta) {
 
 void resetBallLoc() {
     ballX = 0.0; ballY = 0.0;
+}
+
+void resetPaddlesLoc() {
+    leftPaddleY = 0.0; rightPaddleY = 0.0;
+    leftPaddleTopY = 1.0, leftPaddleBotY = -1.0;
+    rightPaddleTopY = 1.0, rightPaddleBotY = -1.0;
+}
+
+void awardPoints (float ballX){
+    if (ballX > 0) {
+        ballDirection = 2;
+        p1Points++;
+    } else {
+        ballDirection = 1;
+        p2Points++;
+    }
+}
+
+void resetGame () {
+    gameState = START;
+    ballDirection = 1;
+    p1Points = p2Points = 0;
+    resetBallLoc();
+    resetPaddlesLoc();
+    glutPostRedisplay();
 }
 
 void updateBallLoc (float delta){
@@ -93,7 +112,7 @@ void updateBallLoc (float delta){
         ballDirection = directionChange[0][ballDirection];
     } else if ((ballX + ballRadius >= X_MAX) || (ballX - ballRadius <= X_MIN)) {
         printf("Left / Right Collision!!!\n");
-        ballDirection = (ballX > 0) ? 1 : 2;
+        awardPoints(ballX);
         resetBallLoc();
     } else if ((ballY + ballRadius >= Y_MAX) || (ballY - ballRadius <= Y_MIN)) {
         printf("Top / Down Collision!!!\n");
@@ -105,8 +124,16 @@ void updateBallLoc (float delta){
     ballY += (delta * directionVector[1][ballDirection]);
 }
 
-void startGame (int startPosition) {
-    gameState = PLAYING;
+void draw3dString (void *font, char *str, float x, float y, float scale) {
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glTranslatef(x, y, 0);
+    glScaled(scale, scale, scale);
+    
+    for (int i = 0; str[i] != '\0'; i++) {
+        glutStrokeCharacter(font, str[i]);
+    }
+    glPopMatrix();
 }
 
 void drawPaddles () {
@@ -133,6 +160,32 @@ void drawPaddles () {
     glPopMatrix();
 }
 
+void drawBall () {
+    glPushMatrix();
+    glTranslated(ballX, ballY, 0);
+    glScaled(ballWidth, ballHeight, ballDepth);
+    glColor3d(1.0, 1.0, 1.0);
+    glutSolidSphere(ballRadius, 20, 20);
+    glColor3d(0.0, 0.0, 1.0);
+    glLineWidth(1.0);
+    glutWireSphere(ballRadius, 20, 20);
+    glPopMatrix();
+}
+
+void drawScreenText () {
+    glColor3f(1, 1, 1);
+    if (gameState == PAUSED){
+        char msg[7] = "PAUSED";
+        draw3dString(GLUT_STROKE_ROMAN, msg, -2, -0.5, 0.008);
+    }
+    char score[100] = "";
+    sprintf(score, "%d %d", p1Points, p2Points);
+    draw3dString(GLUT_STROKE_ROMAN, score, -1, 3, 0.008);
+    
+    char name[50] = "Luis Lamadrid - A01191158";
+    draw3dString(GLUT_STROKE_ROMAN, name, -2.8, -3.5, 0.003);
+}
+
 void drawGuidlines () {
     // guidelines
     glPushMatrix();
@@ -153,18 +206,6 @@ void drawGuidlines () {
     glEnd();
 }
 
-void drawBall () {
-    glPushMatrix();
-    glTranslated(ballX, ballY, 0);
-    glScaled(ballWidth, ballHeight, ballDepth);
-    glColor3d(1.0, 1.0, 1.0);
-    glutSolidSphere(ballRadius, 20, 20);
-    glColor3d(0.0, 0.0, 1.0);
-    glLineWidth(1.0);
-    glutWireSphere(ballRadius, 20, 20);
-    glPopMatrix();
-}
-
 void arrowKeysPressed (int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_DOWN:
@@ -182,8 +223,6 @@ void arrowKeysPressed (int key, int x, int y) {
 }
 
 void keyboardPressed (unsigned char key, int mouseX, int mouseY) {
-    GLint x = mouseX;
-    GLint y = screenHeight - mouseY;
     switch (key) {
         case 'w':
         case 'W':
@@ -199,7 +238,19 @@ void keyboardPressed (unsigned char key, int mouseX, int mouseY) {
             
         case 'i':
         case 'I':
-            startGame(0);
+            gameState = PLAYING;;
+            break;
+            
+        case 'p':
+        case 'P':
+            gameState = PAUSED;
+            break;
+            
+        case 'r':
+        case 'R':
+            gameState = START;
+            resetGame();
+            glutPostRedisplay();
             break;
             
         case 27: exit(0);
@@ -215,7 +266,7 @@ void gameTimer (int value){
         resetBallLoc();
     }
     glutPostRedisplay();
-    glutTimerFunc(100, gameTimer, 1);
+    glutTimerFunc(50, gameTimer, 1);
 }
 
 void display() {
@@ -223,6 +274,7 @@ void display() {
     
     drawGuidlines();
     drawPaddles();
+    drawScreenText(); // score or pause, etc...
     drawBall();
     
     glutSwapBuffers();
@@ -257,7 +309,7 @@ int main(int argc, char** argv) {
     glutKeyboardFunc(keyboardPressed);
     glutSpecialFunc(arrowKeysPressed);
     init();
-    glutTimerFunc(100, gameTimer, 1);
+    glutTimerFunc(50, gameTimer, 1);
     glutMainLoop();
 }
 
