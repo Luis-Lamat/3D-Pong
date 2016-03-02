@@ -46,6 +46,7 @@ const float Y_MAX = 4.0, Y_MIN = -4.0;
 
 // movement
 float paddleSpeed = 0.4, ballSpeed = 0.1;
+int ballBounceSeq = 0;
 
 // game mechanics
 typedef enum { START, PLAYING, PAUSED, GAME_OVER } State;
@@ -109,6 +110,8 @@ void updateBallLoc (float delta){
         (ballY <= rightPaddleTopY && ballY >= rightPaddleBotY &&
          ballX + ballRadius >= rightPaddleFaceX)) {
         printf("Paddle Collision!!!\n");
+        ballBounceSeq = 1;
+            ballWidth = 0.8;
         ballDirection = directionChange[0][ballDirection];
     } else if ((ballX + ballRadius >= X_MAX) || (ballX - ballRadius <= X_MIN)) {
         printf("Left / Right Collision!!!\n");
@@ -261,6 +264,13 @@ void keyboardPressed (unsigned char key, int mouseX, int mouseY) {
 
 void gameTimer (int value){
     if (gameState == PLAYING) {
+        if (ballBounceSeq <= 2 && ballBounceSeq != 0) {
+            ballWidth = 0.7;
+            ballBounceSeq++;
+        } else {
+            ballWidth = 1.0;
+            ballBounceSeq = 0;
+        }
         updateBallLoc(ballSpeed);
     } else if (gameState == GAME_OVER) {
         resetBallLoc();
