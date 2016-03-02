@@ -42,7 +42,7 @@ float rightPaddleFaceX = rightPaddleX - (paddleWidth/2); // special
 float rightPaddleTopY = 1.0, rightPaddleBotY = -1.0;
 
 // ball position and direction
-float ballX = 1.0, ballY = 0.0;
+float ballX = 0.0, ballY = 0.0;
 int ballDirection = 1; // a number for each cartesian quadrant
 // row 0 is for x coord. direction changes and row 1 for y-coord. changes
 int directionVector[2][5] = {{0, 1, -1, -1, 1}, {0, 1, 1, -1, -1}};
@@ -79,6 +79,10 @@ void updateRightPaddleLoc (float delta) {
     }
 }
 
+void resetBallLoc() {
+    ballX = 0.0; ballY = 0.0;
+}
+
 void updateBallLoc (float delta){
     // checking for left or right paddle collisions
     if ((ballY <= leftPaddleTopY && ballY >= leftPaddleBotY &&
@@ -89,7 +93,8 @@ void updateBallLoc (float delta){
         ballDirection = directionChange[0][ballDirection];
     } else if ((ballX + ballRadius >= X_MAX) || (ballX - ballRadius <= X_MIN)) {
         printf("Left / Right Collision!!!\n");
-        ballDirection = directionChange[0][ballDirection];
+        ballDirection = (ballX > 0) ? 1 : 2;
+        resetBallLoc();
     } else if ((ballY + ballRadius >= Y_MAX) || (ballY - ballRadius <= Y_MIN)) {
         printf("Top / Down Collision!!!\n");
         ballDirection = directionChange[1][ballDirection];
@@ -98,10 +103,6 @@ void updateBallLoc (float delta){
     // updating the paddle's position
     ballX += (delta * directionVector[0][ballDirection]);
     ballY += (delta * directionVector[1][ballDirection]);
-}
-
-void resetBallLoc() {
-    ballX = 0.0; ballY = 0.0;
 }
 
 void startGame (int startPosition) {
