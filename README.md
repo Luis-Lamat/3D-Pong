@@ -3,8 +3,6 @@
 This is a 3D Pong game made with OpenGL. Consists of two players and basic
 controls for the game.
 
-## Preview
-
 ![preview](img/preview.png)
 
 ## Controls
