@@ -193,10 +193,13 @@ void drawScreenText () {
     }
     char score[100] = "";
     sprintf(score, "%d %d", p1Points, p2Points);
-    draw3dString(GLUT_STROKE_ROMAN, score, -1, 3, 0.008);
+    draw3dString(GLUT_STROKE_ROMAN, score, -1, 1.5, 0.008);
     
     char name[50] = "Luis Lamadrid - A01191158";
-    draw3dString(GLUT_STROKE_ROMAN, name, -2.8, -3.5, 0.003);
+    draw3dString(GLUT_STROKE_ROMAN, name, -2.8, -1.5, 0.003);
+    
+    char name2[50] = "Manuel Sanudo - A01192241";
+    draw3dString(GLUT_STROKE_ROMAN, name2, -2.8, -2.0, 0.003);
 }
 
 void drawGuidlines () {
@@ -336,12 +339,13 @@ void display() {
     
         drawGuidlines();
         drawPaddles();
-        drawBall();
     
         glPushMatrix();
             if (!verticalOrientation) { glRotated(90, 0, 0, -1); }
             drawScreenText(); // score or pause, etc...
         glPopMatrix();
+    
+        drawBall();
     
     glPopMatrix();
     
