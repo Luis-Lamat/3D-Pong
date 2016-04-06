@@ -227,10 +227,13 @@ void drawScreenText () {
     }
     char score[100] = "";
     sprintf(score, "%d %d", p1Points, p2Points);
-    draw3dString(GLUT_STROKE_ROMAN, score, -1, 3, 0.008);
+    draw3dString(GLUT_STROKE_ROMAN, score, -1, 1.5, 0.008);
     
     char name[50] = "Luis Lamadrid - A01191158";
-    draw3dString(GLUT_STROKE_ROMAN, name, -2.8, -3.5, 0.003);
+    draw3dString(GLUT_STROKE_ROMAN, name, -2.8, -1.5, 0.003);
+    
+    char name2[50] = "Manuel Sanudo - A01192241";
+    draw3dString(GLUT_STROKE_ROMAN, name2, -2.8, -2.0, 0.003);
 }
 
 void drawGuidlines () {
@@ -256,15 +259,29 @@ void drawGuidlines () {
 void arrowKeysPressed (int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_DOWN:
+            if (!verticalOrientation) break;
             updateRightPaddleLoc(-paddleSpeed);
             glutPostRedisplay();
             break;
             
         case GLUT_KEY_UP:
+            if (!verticalOrientation) break;
             updateRightPaddleLoc(paddleSpeed);
             glutPostRedisplay();
             break;
-        
+            
+        case GLUT_KEY_LEFT:
+            if (verticalOrientation) break;
+            updateRightPaddleLoc(paddleSpeed);
+            glutPostRedisplay();
+            break;
+            
+        case GLUT_KEY_RIGHT:
+            if (verticalOrientation) break;
+            updateRightPaddleLoc(-paddleSpeed);
+            glutPostRedisplay();
+            break;
+            
         default: break;
     }
 }
@@ -273,12 +290,28 @@ void keyboardPressed (unsigned char key, int mouseX, int mouseY) {
     switch (key) {
         case 'w':
         case 'W':
+            if (!verticalOrientation) break;
             updateLeftPaddleLoc(paddleSpeed);
             glutPostRedisplay();
             break;
             
         case 's':
         case 'S':
+            if (!verticalOrientation) break;
+            updateLeftPaddleLoc(-paddleSpeed);
+            glutPostRedisplay();
+            break;
+            
+        case 'a':
+        case 'A':
+            if (verticalOrientation) break;
+            updateLeftPaddleLoc(paddleSpeed);
+            glutPostRedisplay();
+            break;
+            
+        case 'd':
+        case 'D':
+            if (verticalOrientation) break;
             updateLeftPaddleLoc(-paddleSpeed);
             glutPostRedisplay();
             break;
@@ -371,12 +404,13 @@ void display() {
     
         drawGuidlines();
         drawPaddles();
-        drawBall();
     
         glPushMatrix();
             if (!verticalOrientation) { glRotated(90, 0, 0, -1); }
             drawScreenText(); // score or pause, etc...
         glPopMatrix();
+    
+        drawBall();
     
     glPopMatrix();
     
