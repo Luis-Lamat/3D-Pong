@@ -59,6 +59,8 @@ int p1Points = 0, p2Points = 0;
 Sound bopSound = Sound((char *) "/Users/Beto/TEC/Gráficas/VistaOrtogonalglOrtho/VistaOrtogonalglOrtho/bop.wav");
 Sound panSound = Sound((char *) "/Users/Beto/TEC/Gráficas/VistaOrtogonalglOrtho/VistaOrtogonalglOrtho/pan.wav");
 
+// EXAM Vars
+bool verticalOrientation = true;
 
 /* ------------------------------- Functions -------------------------------- */
 
@@ -264,6 +266,11 @@ void keyboardPressed (unsigned char key, int mouseX, int mouseY) {
             glutPostRedisplay();
             break;
             
+        case 'o':
+        case 'O':
+            verticalOrientation = !verticalOrientation;
+            break;
+            
         case 27: exit(0);
             
         default: break;
@@ -294,12 +301,17 @@ void display() {
     glClear(GL_COLOR_BUFFER_BIT);
     
     glPushMatrix();
+    if (!verticalOrientation) { glRotated(90, 0, 0, 1); }
     glRotatef(rotationAngles, 0, 1, 0);
     
         drawGuidlines();
         drawPaddles();
-        drawScreenText(); // score or pause, etc...
         drawBall();
+    
+        glPushMatrix();
+            if (!verticalOrientation) { glRotated(90, 0, 0, -1); }
+            drawScreenText(); // score or pause, etc...
+        glPopMatrix();
     
     glPopMatrix();
     
