@@ -64,7 +64,7 @@ Sound panSound = Sound((char *) "/Users/Beto/TEC/Gráficas/VistaOrtogonalglOrth
 // EXAM Vars
 bool verticalOrientation = true, bounced = false, mouseOver = false;
 
-const int NUM_TEXTURES = 7;
+const int NUM_TEXTURES = 8;
 const int BG_TEX = 0;
 const int GIRL_TEX = 1;
 const int BOY_TEX = 2;
@@ -72,9 +72,10 @@ const int BALL_TEX = 3;
 const int BALL2_TEX = 4;
 const int INICIO1_TEX = 5;
 const int INICIO2_TEX = 6;
+const int GRASS_TEX = 7;
 string fullPath = __FILE__;
 GLuint textures[NUM_TEXTURES];
-
+void drawGrass();
 
 /* ------------------------------- Functions -------------------------------- */
 
@@ -244,6 +245,7 @@ void drawScreenText () {
 void drawGuidlines () {
     // guidelines
     glPushMatrix();
+    drawGrass();
     glScaled(8, 8, paddleDepth + 0.08);
     glColor3d(0, 0, 0);
     glLineWidth(4.0);
@@ -306,6 +308,35 @@ void drawMenu() {
     glEnd();
     
     
+}
+
+void drawGrass(){
+    glPushMatrix();
+    glScalef(0.92, 0.92, 1);
+    glColor3f(1, 1, 1);
+    //Habilitar el uso de texturas
+    glEnable(GL_TEXTURE_2D);
+    
+    //Elegir la textura del Quads: angulo cambia con el timer
+    glBindTexture(GL_TEXTURE_2D, textures[GRASS_TEX]);
+    
+    glBegin(GL_QUADS);
+    //Asignar la coordenada de textura 0,0 al vertice
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(X_MIN, Y_MIN, 0);
+    //Asignar la coordenada de textura 1,0 al vertice
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(X_MAX, Y_MIN, 0);
+    //Asignar la coordenada de textura 1,1 al vertice
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(X_MAX, Y_MAX, 0);
+    //Asignar la coordenada de textura 0,1 al vertice
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(X_MIN, Y_MAX, 0);
+    glEnd();
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
 }
 
 void mouseMoved(int x, int y) {
@@ -441,6 +472,9 @@ void loadTextures() {
     
     sprintf(path,"%s%s", fullPath.c_str() , "Texturas/inicio2.bmp");
     textures[INICIO2_TEX] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    
+    sprintf(path,"%s%s", fullPath.c_str() , "Texturas/pasto.bmp");
+    textures[GRASS_TEX] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 }
 
 void gameTimer(int value){
@@ -473,7 +507,7 @@ void display() {
         glPushMatrix();
         if (!verticalOrientation) { glRotated(90, 0, 0, 1); }
         glRotatef(rotationAngles, 0, 1, 0);
-        
+       
         drawGuidlines();
         drawPaddles();
         
@@ -481,7 +515,7 @@ void display() {
         if (!verticalOrientation) { glRotated(90, 0, 0, -1); }
         drawScreenText(); // score or pause, etc...
         glPopMatrix();
-        
+
         drawBall();
         
         glPopMatrix();
