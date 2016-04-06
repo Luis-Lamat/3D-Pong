@@ -58,8 +58,8 @@ State gameState = START;
 int p1Points = 0, p2Points = 0;
 
 // sound variables
-//Sound bopSound = Sound();
-//Sound panSound = NULL;
+Sound bopSound = Sound((char *) "/Users/Beto/TEC/Gráficas/VistaOrtogonalglOrtho/VistaOrtogonalglOrtho/bop.wav");
+Sound panSound = Sound((char *) "/Users/Beto/TEC/Gráficas/VistaOrtogonalglOrtho/VistaOrtogonalglOrtho/pan.wav");
 
 // EXAM Vars
 bool verticalOrientation = true, bounced = false;
@@ -136,12 +136,12 @@ void updateBallLoc (float delta){
         ballDirection = directionChange[0][ballDirection];
     } else if ((ballX + ballRadius >= X_MAX) || (ballX - ballRadius <= X_MIN)) {
         printf("Left / Right Collision!!!\n");
-//        bopSound.PlaySound();
+        bopSound.PlaySound();
         awardPoints(ballX);
         resetBallLoc();
     } else if ((ballY + ballRadius >= Y_MAX) || (ballY - ballRadius <= Y_MIN)) {
         printf("Top / Down Collision!!!\n");
-//        panSound.PlaySound();
+        panSound.PlaySound();
         ballDirection = directionChange[1][ballDirection];
     }
 
@@ -354,11 +354,6 @@ void loadTextures() {
 		fullPath.erase(i,1);
 	}
 	char  path[200];
-//	sprintf(path,"%s%s", fullPath.c_str() , "bop.wav");
-//	bopSound = Sound(path);
-//	sprintf(path,"%s%s", fullPath.c_str() , "pan.wav");
-//	panSound = Sound(path);
-	
 	sprintf(path,"%s%s", fullPath.c_str() , "Texturas/Fondo.bmp");
 	textures[BG_TEX] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 	
