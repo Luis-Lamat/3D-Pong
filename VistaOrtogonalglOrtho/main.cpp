@@ -313,6 +313,13 @@ void mouseMoved(int x, int y) {
     mouseOver =  (x >= 135 && x <= 365 && y >= 225 && y <= 275);
 }
 
+void mouseClicked(int button, int state, int x, int y){
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN &&
+        x >= 135 && x <= 365 && y >= 225 && y <= 275) {
+        gameState = PLAYING;
+    }
+}
+
 void arrowKeysPressed (int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_DOWN:
@@ -381,12 +388,14 @@ void keyboardPressed (unsigned char key, int mouseX, int mouseY) {
             
         case 'p':
         case 'P':
+            if (gameState == START) break;
             gameState = PAUSED;
             break;
             
         case 'r':
         case 'R':
             gameState = START;
+            verticalOrientation = true;
             resetGame();
             glutPostRedisplay();
             break;
@@ -515,6 +524,7 @@ int main(int argc, char** argv) {
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboardPressed);
     glutPassiveMotionFunc(mouseMoved);
+    glutMouseFunc(mouseClicked);
     glutSpecialFunc(arrowKeysPressed);
     init();
     glutTimerFunc(50, gameTimer, 1);
