@@ -192,10 +192,12 @@ void drawBall() {
 	glEnable(GL_TEXTURE_2D);
 	//	Cambiamos el color para que no se pinte la textura
 	glColor3f(1, 1, 1);
-	if (bounced) {
+	if (bounced)
+    {
 		glBindTexture(GL_TEXTURE_2D, textures[BALL2_TEX]);
-		bounced = false;
-	} else {
+		bounced = !bounced;
+	} else
+    {
 		glBindTexture(GL_TEXTURE_2D, textures[BALL_TEX]);
 	}
 	//	Como se van a generar las coordenadas?
@@ -217,6 +219,7 @@ void drawBall() {
 	
 	glDisable(GL_TEXTURE_GEN_S);
 	glDisable(GL_TEXTURE_GEN_T);
+    glDisable(GL_TEXTURE_2D);
 }
 
 void drawScreenText () {
