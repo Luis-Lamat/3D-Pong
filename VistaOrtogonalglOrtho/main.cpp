@@ -14,7 +14,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "Sound.h"
+#include "SOIL/SOIL.h"
 
 /* --------------------------- Global Variables ----------------------------- */
 
@@ -56,11 +58,21 @@ State gameState = START;
 int p1Points = 0, p2Points = 0;
 
 // sound variables
-Sound bopSound = Sound((char *) "/Users/Beto/TEC/Gráficas/VistaOrtogonalglOrtho/VistaOrtogonalglOrtho/bop.wav");
-Sound panSound = Sound((char *) "/Users/Beto/TEC/Gráficas/VistaOrtogonalglOrtho/VistaOrtogonalglOrtho/pan.wav");
+//Sound bopSound = Sound();
+//Sound panSound = NULL;
 
 // EXAM Vars
-bool verticalOrientation = true;
+bool verticalOrientation = true, bounced = false;
+
+const int NUM_TEXTURES = 5;
+const int BG_TEX = 0;
+const int GIRL_TEX = 1;
+const int BOY_TEX = 2;
+const int BALL_TEX = 3;
+const int BALL2_TEX = 4;
+string fullPath = __FILE__;
+GLuint textures[NUM_TEXTURES];
+
 
 /* ------------------------------- Functions -------------------------------- */
 
@@ -119,16 +131,17 @@ void updateBallLoc (float delta){
          ballX + ballRadius >= rightPaddleFaceX)) {
         printf("Paddle Collision!!!\n");
         ballBounceSeq = 1;
-            ballWidth = 0.8;
+		ballWidth = 0.8;
+		bounced = true;
         ballDirection = directionChange[0][ballDirection];
     } else if ((ballX + ballRadius >= X_MAX) || (ballX - ballRadius <= X_MIN)) {
         printf("Left / Right Collision!!!\n");
-        bopSound.PlaySound();
+//        bopSound.PlaySound();
         awardPoints(ballX);
         resetBallLoc();
     } else if ((ballY + ballRadius >= Y_MAX) || (ballY - ballRadius <= Y_MIN)) {
         printf("Top / Down Collision!!!\n");
-        panSound.PlaySound();
+//        panSound.PlaySound();
         ballDirection = directionChange[1][ballDirection];
     }
 
@@ -173,7 +186,25 @@ void drawPaddles () {
     glPopMatrix();
 }
 
-void drawBall () {
+void drawBall() {
+	//	Cuando se desconocen los vertices del objeto
+	//	Selecciona la textura
+	glEnable(GL_TEXTURE_2D);
+	//	Cambiamos el color para que no se pinte la textura
+	glColor3f(1, 1, 1);
+	if (bounced) {
+		glBindTexture(GL_TEXTURE_2D, textures[BALL2_TEX]);
+		bounced = false;
+	} else {
+		glBindTexture(GL_TEXTURE_2D, textures[BALL_TEX]);
+	}
+	//	Como se van a generar las coordenadas?
+	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+	//	Activar la generación de coordenadas
+	glEnable(GL_TEXTURE_GEN_S);
+	glEnable(GL_TEXTURE_GEN_T);
+	
     glPushMatrix();
     glTranslated(ballX, ballY, 0);
     glScaled(ballWidth, ballHeight, ballDepth);
@@ -183,6 +214,9 @@ void drawBall () {
     glLineWidth(1.0);
     glutWireSphere(ballRadius, 20, 20);
     glPopMatrix();
+	
+	glDisable(GL_TEXTURE_GEN_S);
+	glDisable(GL_TEXTURE_GEN_T);
 }
 
 void drawScreenText () {
@@ -277,7 +311,38 @@ void keyboardPressed (unsigned char key, int mouseX, int mouseY) {
     }
 }
 
-void gameTimer (int value){
+void loadTextures() {
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
+	glGenTextures(NUM_TEXTURES, textures);
+	
+//	remove "main.cpp" from path
+	for (int i = (int)fullPath.length()-1; i>=0 && fullPath[i] != '/'; i--) {
+		fullPath.erase(i,1);
+	}
+	char  path[200];
+//	sprintf(path,"%s%s", fullPath.c_str() , "bop.wav");
+//	bopSound = Sound(path);
+//	sprintf(path,"%s%s", fullPath.c_str() , "pan.wav");
+//	panSound = Sound(path);
+	
+	sprintf(path,"%s%s", fullPath.c_str() , "Texturas/Fondo.bmp");
+	textures[BG_TEX] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	
+	sprintf(path,"%s%s", fullPath.c_str() , "Texturas/nina.bmp");
+	textures[GIRL_TEX] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	
+	sprintf(path,"%s%s", fullPath.c_str() , "Texturas/nino.bmp");
+	textures[BOY_TEX] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	
+	sprintf(path,"%s%s", fullPath.c_str() , "Texturas/burger.bmp");
+	textures[BALL_TEX] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	
+	sprintf(path,"%s%s", fullPath.c_str() , "Texturas/burger2.bmp");
+	textures[BALL2_TEX] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+}
+
+void gameTimer(int value){
     if (gameState == PLAYING) {
         if (ballBounceSeq <= 2 && ballBounceSeq != 0) {
             ballWidth = 0.7;
@@ -334,6 +399,7 @@ void reshape(int w, int h) {
 void init() {
     glClearColor (0.2039, 0.6588, 0.3254, 1.0);
     glColor3f(0.0, 0.0, 0.0);
+	loadTextures();
 }
 
 int main(int argc, char** argv) {

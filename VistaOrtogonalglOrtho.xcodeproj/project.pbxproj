@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		93248C121CB576AF008710AC /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 93248C071CB576AF008710AC /* image_DXT.c */; };
+		93248C131CB576AF008710AC /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 93248C091CB576AF008710AC /* image_helper.c */; };
+		93248C141CB576AF008710AC /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = 93248C0C1CB576AF008710AC /* SOIL.c */; };
+		93248C151CB576AF008710AC /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = 93248C0E1CB576AF008710AC /* stb_image_aug.c */; };
 		C8D7F9BB1A94E7CF00530B50 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8D7F9BA1A94E7CF00530B50 /* main.cpp */; };
 		C8D7F9C31A94E7F500530B50 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D7F9C11A94E7F500530B50 /* GLUT.framework */; };
 		C8D7F9C41A94E7F500530B50 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D7F9C21A94E7F500530B50 /* OpenGL.framework */; };
@@ -27,6 +31,41 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		93248BED1CB57629008710AC /* burger.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = burger.bmp; sourceTree = "<group>"; };
+		93248BEE1CB57629008710AC /* escuela.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = escuela.bmp; sourceTree = "<group>"; };
+		93248BEF1CB57629008710AC /* Fondo.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = Fondo.bmp; sourceTree = "<group>"; };
+		93248BF01CB57629008710AC /* ganador.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = ganador.bmp; sourceTree = "<group>"; };
+		93248BF11CB57629008710AC /* i1-1.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "i1-1.bmp"; sourceTree = "<group>"; };
+		93248BF21CB57629008710AC /* i3-1.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "i3-1.bmp"; sourceTree = "<group>"; };
+		93248BF31CB57629008710AC /* i4-1.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "i4-1.bmp"; sourceTree = "<group>"; };
+		93248BF41CB57629008710AC /* i5-1.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "i5-1.bmp"; sourceTree = "<group>"; };
+		93248BF51CB57629008710AC /* inicio1.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = inicio1.bmp; sourceTree = "<group>"; };
+		93248BF61CB57629008710AC /* inicio2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = inicio2.bmp; sourceTree = "<group>"; };
+		93248BF71CB57629008710AC /* instrucciones1.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = instrucciones1.bmp; sourceTree = "<group>"; };
+		93248BF81CB57629008710AC /* instrucciones2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = instrucciones2.bmp; sourceTree = "<group>"; };
+		93248BF91CB57629008710AC /* materia.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = materia.bmp; sourceTree = "<group>"; };
+		93248BFA1CB57629008710AC /* nina.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = nina.bmp; sourceTree = "<group>"; };
+		93248BFB1CB57629008710AC /* nino.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = nino.bmp; sourceTree = "<group>"; };
+		93248BFC1CB57629008710AC /* nuevojuego1.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = nuevojuego1.bmp; sourceTree = "<group>"; };
+		93248BFD1CB57629008710AC /* nuevojuego2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = nuevojuego2.bmp; sourceTree = "<group>"; };
+		93248BFE1CB57629008710AC /* objetivo.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = objetivo.bmp; sourceTree = "<group>"; };
+		93248BFF1CB57629008710AC /* pasto.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = pasto.bmp; sourceTree = "<group>"; };
+		93248C001CB57629008710AC /* perdedor.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = perdedor.bmp; sourceTree = "<group>"; };
+		93248C011CB57629008710AC /* RaquetaNina.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = RaquetaNina.bmp; sourceTree = "<group>"; };
+		93248C021CB57629008710AC /* RaquetaNino.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = RaquetaNino.bmp; sourceTree = "<group>"; };
+		93248C031CB57629008710AC /* salir1.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = salir1.bmp; sourceTree = "<group>"; };
+		93248C041CB57629008710AC /* salir2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = salir2.bmp; sourceTree = "<group>"; };
+		93248C071CB576AF008710AC /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
+		93248C081CB576AF008710AC /* image_DXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_DXT.h; sourceTree = "<group>"; };
+		93248C091CB576AF008710AC /* image_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_helper.c; sourceTree = "<group>"; };
+		93248C0A1CB576AF008710AC /* image_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_helper.h; sourceTree = "<group>"; };
+		93248C0C1CB576AF008710AC /* SOIL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SOIL.c; sourceTree = "<group>"; };
+		93248C0D1CB576AF008710AC /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOIL.h; sourceTree = "<group>"; };
+		93248C0E1CB576AF008710AC /* stb_image_aug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stb_image_aug.c; sourceTree = "<group>"; };
+		93248C0F1CB576AF008710AC /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image_aug.h; sourceTree = "<group>"; };
+		93248C101CB576AF008710AC /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stbi_DDS_aug.h; sourceTree = "<group>"; };
+		93248C111CB576AF008710AC /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stbi_DDS_aug_c.h; sourceTree = "<group>"; };
+		93248C161CB57E15008710AC /* burger2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = burger2.bmp; sourceTree = "<group>"; };
 		C8D7F9B71A94E7CF00530B50 /* VistaOrtogonalglOrtho */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VistaOrtogonalglOrtho; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D7F9BA1A94E7CF00530B50 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C8D7F9C11A94E7F500530B50 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -52,6 +91,63 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		93248BEC1CB57629008710AC /* Texturas */ = {
+			isa = PBXGroup;
+			children = (
+				93248BED1CB57629008710AC /* burger.bmp */,
+				93248C161CB57E15008710AC /* burger2.bmp */,
+				93248BEE1CB57629008710AC /* escuela.bmp */,
+				93248BEF1CB57629008710AC /* Fondo.bmp */,
+				93248BF01CB57629008710AC /* ganador.bmp */,
+				93248BF11CB57629008710AC /* i1-1.bmp */,
+				93248BF21CB57629008710AC /* i3-1.bmp */,
+				93248BF31CB57629008710AC /* i4-1.bmp */,
+				93248BF41CB57629008710AC /* i5-1.bmp */,
+				93248BF51CB57629008710AC /* inicio1.bmp */,
+				93248BF61CB57629008710AC /* inicio2.bmp */,
+				93248BF71CB57629008710AC /* instrucciones1.bmp */,
+				93248BF81CB57629008710AC /* instrucciones2.bmp */,
+				93248BF91CB57629008710AC /* materia.bmp */,
+				93248BFA1CB57629008710AC /* nina.bmp */,
+				93248BFB1CB57629008710AC /* nino.bmp */,
+				93248BFC1CB57629008710AC /* nuevojuego1.bmp */,
+				93248BFD1CB57629008710AC /* nuevojuego2.bmp */,
+				93248BFE1CB57629008710AC /* objetivo.bmp */,
+				93248BFF1CB57629008710AC /* pasto.bmp */,
+				93248C001CB57629008710AC /* perdedor.bmp */,
+				93248C011CB57629008710AC /* RaquetaNina.bmp */,
+				93248C021CB57629008710AC /* RaquetaNino.bmp */,
+				93248C031CB57629008710AC /* salir1.bmp */,
+				93248C041CB57629008710AC /* salir2.bmp */,
+			);
+			path = Texturas;
+			sourceTree = "<group>";
+		};
+		93248C061CB576AF008710AC /* SOIL */ = {
+			isa = PBXGroup;
+			children = (
+				93248C071CB576AF008710AC /* image_DXT.c */,
+				93248C081CB576AF008710AC /* image_DXT.h */,
+				93248C091CB576AF008710AC /* image_helper.c */,
+				93248C0A1CB576AF008710AC /* image_helper.h */,
+				93248C0B1CB576AF008710AC /* original */,
+				93248C0C1CB576AF008710AC /* SOIL.c */,
+				93248C0D1CB576AF008710AC /* SOIL.h */,
+				93248C0E1CB576AF008710AC /* stb_image_aug.c */,
+				93248C0F1CB576AF008710AC /* stb_image_aug.h */,
+				93248C101CB576AF008710AC /* stbi_DDS_aug.h */,
+				93248C111CB576AF008710AC /* stbi_DDS_aug_c.h */,
+			);
+			path = SOIL;
+			sourceTree = "<group>";
+		};
+		93248C0B1CB576AF008710AC /* original */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = original;
+			sourceTree = "<group>";
+		};
 		C8D7F9AE1A94E7CF00530B50 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +175,8 @@
 				CAF2D6F61C87509C007962CC /* Sound.h */,
 				CAF2D6F71C8750AE007962CC /* Sound.cpp */,
 				C8D7F9BA1A94E7CF00530B50 /* main.cpp */,
+				93248C061CB576AF008710AC /* SOIL */,
+				93248BEC1CB57629008710AC /* Texturas */,
 			);
 			path = VistaOrtogonalglOrtho;
 			sourceTree = "<group>";
@@ -139,8 +237,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93248C141CB576AF008710AC /* SOIL.c in Sources */,
 				C8D7F9BB1A94E7CF00530B50 /* main.cpp in Sources */,
+				93248C131CB576AF008710AC /* image_helper.c in Sources */,
+				93248C151CB576AF008710AC /* stb_image_aug.c in Sources */,
 				CAF2D6F81C8750AE007962CC /* Sound.cpp in Sources */,
+				93248C121CB576AF008710AC /* image_DXT.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
