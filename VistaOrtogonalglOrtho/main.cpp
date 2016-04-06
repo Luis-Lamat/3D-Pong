@@ -62,14 +62,16 @@ int p1Points = 0, p2Points = 0;
 //Sound panSound = NULL;
 
 // EXAM Vars
-bool verticalOrientation = true, bounced = false;
+bool verticalOrientation = true, bounced = false, mouseOver = false;
 
-const int NUM_TEXTURES = 5;
+const int NUM_TEXTURES = 7;
 const int BG_TEX = 0;
 const int GIRL_TEX = 1;
 const int BOY_TEX = 2;
 const int BALL_TEX = 3;
 const int BALL2_TEX = 4;
+const int INICIO1_TEX = 5;
+const int INICIO2_TEX = 6;
 string fullPath = __FILE__;
 GLuint textures[NUM_TEXTURES];
 
@@ -259,6 +261,58 @@ void drawGuidlines () {
     glEnd();
 }
 
+void drawMenu() {
+    glColor3f(1, 1, 1);
+    //Habilitar el uso de texturas
+    glEnable(GL_TEXTURE_2D);
+    
+    //Elegir la textura del Quads: angulo cambia con el timer
+    glBindTexture(GL_TEXTURE_2D, textures[BG_TEX]);
+    
+    glBegin(GL_QUADS);
+    //Asignar la coordenada de textura 0,0 al vertice
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(X_MIN, Y_MIN, 0);
+    //Asignar la coordenada de textura 1,0 al vertice
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(X_MAX, Y_MIN, 0);
+    //Asignar la coordenada de textura 1,1 al vertice
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(X_MAX, Y_MAX, 0);
+    //Asignar la coordenada de textura 0,1 al vertice
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(X_MIN, Y_MAX, 0);
+    glEnd();
+    
+    if (!mouseOver) {
+        glBindTexture(GL_TEXTURE_2D, textures[INICIO1_TEX]);
+    } else {
+        glBindTexture(GL_TEXTURE_2D, textures[INICIO2_TEX]);
+
+    }
+    glBegin(GL_QUADS);
+    //Asignar la coordenada de textura 0,0 al vertice
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-2, -0.5, 0);
+    //Asignar la coordenada de textura 1,0 al vertice
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(2, -0.5, 0);
+    //Asignar la coordenada de textura 1,1 al vertice
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(2, 0.5, 0);
+    //Asignar la coordenada de textura 0,1 al vertice
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-2, 0.5, 0);
+    glEnd();
+    
+    
+}
+
+void mouseMoved(int x, int y) {
+    // printf("Motion = X: %d,  Y: %d\n", x, y);
+    mouseOver =  (x >= 135 && x <= 365 && y >= 225 && y <= 275);
+}
+
 void arrowKeysPressed (int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_DOWN:
@@ -321,6 +375,7 @@ void keyboardPressed (unsigned char key, int mouseX, int mouseY) {
             
         case 'i':
         case 'I':
+            if (gameState == START) break;
             gameState = PLAYING;;
             break;
             
@@ -376,6 +431,12 @@ void loadTextures() {
 	
 	sprintf(path,"%s%s", fullPath.c_str() , "Texturas/burger2.bmp");
 	textures[BALL2_TEX] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    
+    sprintf(path,"%s%s", fullPath.c_str() , "Texturas/inicio1.bmp");
+    textures[INICIO1_TEX] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    
+    sprintf(path,"%s%s", fullPath.c_str() , "Texturas/inicio2.bmp");
+    textures[INICIO2_TEX] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 }
 
 void gameTimer(int value){
@@ -399,23 +460,28 @@ void gameTimer(int value){
 }
 
 void display() {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    glPushMatrix();
-    if (!verticalOrientation) { glRotated(90, 0, 0, 1); }
-    glRotatef(rotationAngles, 0, 1, 0);
-    
+    if (gameState == START){
+        drawMenu();
+    }
+    else {
+        glPushMatrix();
+        if (!verticalOrientation) { glRotated(90, 0, 0, 1); }
+        glRotatef(rotationAngles, 0, 1, 0);
+        
         drawGuidlines();
         drawPaddles();
-    
+        
         glPushMatrix();
-            if (!verticalOrientation) { glRotated(90, 0, 0, -1); }
-            drawScreenText(); // score or pause, etc...
+        if (!verticalOrientation) { glRotated(90, 0, 0, -1); }
+        drawScreenText(); // score or pause, etc...
         glPopMatrix();
-    
+        
         drawBall();
-    
-    glPopMatrix();
+        
+        glPopMatrix();
+    }
     
     glutSwapBuffers();
 }
@@ -448,6 +514,7 @@ int main(int argc, char** argv) {
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboardPressed);
+    glutPassiveMotionFunc(mouseMoved);
     glutSpecialFunc(arrowKeysPressed);
     init();
     glutTimerFunc(50, gameTimer, 1);
