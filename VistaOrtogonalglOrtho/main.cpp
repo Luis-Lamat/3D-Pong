@@ -222,15 +222,29 @@ void drawGuidlines () {
 void arrowKeysPressed (int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_DOWN:
+            if (!verticalOrientation) break;
             updateRightPaddleLoc(-paddleSpeed);
             glutPostRedisplay();
             break;
             
         case GLUT_KEY_UP:
+            if (!verticalOrientation) break;
             updateRightPaddleLoc(paddleSpeed);
             glutPostRedisplay();
             break;
-        
+            
+        case GLUT_KEY_LEFT:
+            if (verticalOrientation) break;
+            updateRightPaddleLoc(paddleSpeed);
+            glutPostRedisplay();
+            break;
+            
+        case GLUT_KEY_RIGHT:
+            if (verticalOrientation) break;
+            updateRightPaddleLoc(-paddleSpeed);
+            glutPostRedisplay();
+            break;
+            
         default: break;
     }
 }
@@ -239,12 +253,28 @@ void keyboardPressed (unsigned char key, int mouseX, int mouseY) {
     switch (key) {
         case 'w':
         case 'W':
+            if (!verticalOrientation) break;
             updateLeftPaddleLoc(paddleSpeed);
             glutPostRedisplay();
             break;
             
         case 's':
         case 'S':
+            if (!verticalOrientation) break;
+            updateLeftPaddleLoc(-paddleSpeed);
+            glutPostRedisplay();
+            break;
+            
+        case 'a':
+        case 'A':
+            if (verticalOrientation) break;
+            updateLeftPaddleLoc(paddleSpeed);
+            glutPostRedisplay();
+            break;
+            
+        case 'd':
+        case 'D':
+            if (verticalOrientation) break;
             updateLeftPaddleLoc(-paddleSpeed);
             glutPostRedisplay();
             break;
